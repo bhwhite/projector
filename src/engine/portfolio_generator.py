@@ -48,10 +48,14 @@ class FixedCompositionPortfolioGenerator(PortfolioGenerator):
     def asset_names_of_interest(self):
         return set(self.composition.keys())
 
+    def asset_names_of_interest(self):
+        return set(self.composition.keys())
+
+
     def next_portfolio(self, old_portfolio, current_asset_states, date):
         total_value = old_portfolio.value()
 
-        # This is done in a single list comprehension as an optimization.  Equivalen code:
+        # This is done in a single list comprehension as an optimization.  Equivalent code:
         #
         #   new_holdings = []
         #   for name, frac in self.composition:

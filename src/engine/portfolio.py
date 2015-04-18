@@ -7,7 +7,7 @@ class Portfolio(object):
         """
         :param holdings:  a sequence of Holdings
         :param asset_states:  a sequence of AssetStates corresponding to the
-            sequence of holdings to, i.e. a parallel list.
+            sequence of holdings, i.e. a parallel list.
         """
         if asset_states is not None:
             assert len(holdings) == len(asset_states)
@@ -24,10 +24,11 @@ class Portfolio(object):
         """
         Update the Portfolio's view of the state of the world.
 
-        :param asset_states_dict: a dict from asset name (str) to AssetStates.
+        :param asset_states_dict:  a dict from asset name (str) to AssetStates.
             Must contain an entry for every Holding in self.holdings.
         """
         self.asset_states = [ asset_states_dict[h.asset.name] for h in self.holdings ]
+        self._cached_value = None
 
 
     def value(self):
