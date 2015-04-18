@@ -7,8 +7,10 @@ class Asset(object):
     An Asset represents the static nature of an investable security.  It does
     not describe its dynamic state at any point in time.
     """
-    def __init__(self, name):
+    def __init__(self, name, display_name, ticker):
         self.name = name
+        self.display_name = display_name
+        self.ticker = ticker
 
 
 class AssetState(object):
@@ -19,4 +21,8 @@ class AssetState(object):
     """
     def __init__(self, price=None):
         self.price = price
+
+ASSETS = { asset.name: asset for asset in ( Asset('SP500', 'S&P500 Index', '^GSPC'),
+                                            Asset('UST30', 'US 30 Year Treasuries', '^TYX'), )
+           }
 

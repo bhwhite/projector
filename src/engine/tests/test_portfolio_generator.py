@@ -11,20 +11,20 @@ import unittest
 
 class StubAssetCollection(object):
     def __getitem__(self, item):
-        return Asset(item)
+        return Asset(item, item, item)
 
 
 class PortfolioGeneratorTest(unittest.TestCase):
     def test_fixed_composition_generator(self):
-        p = Portfolio(holdings=[ Holding(Asset('SP500'), 5),
-                                 Holding(Asset('BND'), 10) ],
+        p = Portfolio(holdings=[ Holding(Asset('SP500', '', ''), 5),
+                                 Holding(Asset('BND', '', ''), 10) ],
                       asset_states=[ AssetState(price=19.0),
                                      AssetState(price=39.0) ])
 
-        asset_collection = StubAssetCollection()
+        # asset_collection = StubAssetCollection()
         target_composition = {'BND': 0.50, 'SP500': 0.50}
-        pgen = portfolio_generator.FixedCompositionPortfolioGenerator(composition=target_composition,
-                                                                      asset_collection=asset_collection)
+        pgen = portfolio_generator.FixedCompositionPortfolioGenerator(composition=target_composition)
+
         # Use same asset states as in p's construction
         current_asset_states = { 'SP500': AssetState(price=20.0), 'BND': AssetState(price=40.0) }
 
