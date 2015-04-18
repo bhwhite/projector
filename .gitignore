@@ -3,3 +3,6 @@
 
 # 'compiled' python files
 *.pyc
+
+# IDE cruft
+.idea
