@@ -1,0 +1,1 @@
+To run the 'engine' test suite, run 'nosetests engine' from the src directory.
