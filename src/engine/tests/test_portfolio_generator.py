@@ -17,16 +17,19 @@ class StubAssetCollection(object):
 class PortfolioGeneratorTest(unittest.TestCase):
     def test_fixed_composition_generator(self):
         p = Portfolio(holdings=[ Holding(Asset('SP500', '', ''), 5),
-                                 Holding(Asset('BND', '', ''), 10) ],
+                                 Holding(Asset('UST30', '', ''), 10) ],
                       asset_states=[ AssetState(price=19.0),
                                      AssetState(price=39.0) ])
 
         # asset_collection = StubAssetCollection()
-        target_composition = {'BND': 0.50, 'SP500': 0.50}
+        target_composition = {'UST30': 0.50, 'SP500': 0.50}
         pgen = portfolio_generator.FixedCompositionPortfolioGenerator(composition=target_composition)
+        self.assertEqual(2, len(pgen.asset_names_of_interest()))
+        self.assertIn('UST30',   pgen.asset_names_of_interest())
+        self.assertIn('SP500', pgen.asset_names_of_interest())
 
         # Use same asset states as in p's construction
-        current_asset_states = { 'SP500': AssetState(price=20.0), 'BND': AssetState(price=40.0) }
+        current_asset_states = { 'SP500': AssetState(price=20.0), 'UST30': AssetState(price=40.0) }
 
         p.update_asset_states(current_asset_states)   # Pre-condition for next_portfolio
         next_p = pgen.next_portfolio(p, current_asset_states, date=None)

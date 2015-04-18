@@ -12,6 +12,13 @@ class PortfolioGenerator(object):
     def __init__(self):
         pass
 
+    def asset_names_of_interest(self):
+        """
+        Return the names of all assets this PortfolioGenerator cares about.
+        """
+        raise NotImplementedError
+
+
     def next_portfolio(self, old_portfolio, current_asset_states, date):
         """
         This function returns a updated Portfolio based on the old portfolio,
@@ -40,10 +47,14 @@ class FixedCompositionPortfolioGenerator(PortfolioGenerator):
         self.composition = collections.OrderedDict(composition)
 
 
+    def asset_names_of_interest(self):
+        return set(self.composition.keys())
+
+
     def next_portfolio(self, old_portfolio, current_asset_states, date):
         total_value = old_portfolio.value()
 
-        # This is done in a single list comprehension as an optimization.  Equivalen code:
+        # This is done in a single list comprehension as an optimization.  Equivalent code:
         #
         #   new_holdings = []
         #   for name, frac in self.composition:
