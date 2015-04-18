@@ -12,6 +12,12 @@ class PortfolioGenerator(object):
     def __init__(self):
         pass
 
+    def asset_names_of_interest(self):
+        """
+        Return the names of all assets this PortfolioGenerator cares about.
+        """
+        raise NotImplementedError
+
     def next_portfolio(self, old_portfolio, current_asset_states, date):
         """
         This function returns a updated Portfolio based on the old portfolio,
@@ -39,6 +45,8 @@ class FixedCompositionPortfolioGenerator(PortfolioGenerator):
         assert sum(composition.itervalues()) == 1.0   # TODO (nmusolino): float tolerance
         self.composition = collections.OrderedDict(composition)
 
+    def asset_names_of_interest(self):
+        return set(self.composition.keys())
 
     def next_portfolio(self, old_portfolio, current_asset_states, date):
         total_value = old_portfolio.value()
@@ -57,5 +65,6 @@ class FixedCompositionPortfolioGenerator(PortfolioGenerator):
         assert len(new_holdings) == len(asset_states)
         return Portfolio(new_holdings, asset_states)
 
-GENERATORS = {}
-
+PORTFOLIO_GENERATORS = {
+    'Fixed Composition: 80% Stocks / 20% Bonds' : lambda: FixedCompositionPortfolioGenerator( { 'SP500' : .80, 'UST30' : .20 } ),
+    }

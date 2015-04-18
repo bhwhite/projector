@@ -22,7 +22,7 @@ class AssetState(object):
     def __init__(self, price=None):
         self.price = price
 
-ASSETS = { asset.name: asset for asset in ( Asset('SP500', 'S&P500 Index', '^GSPC'),
+ASSETS = { asset.name: asset for asset in ( Asset('CASH', 'Cash', 'Cash'),
+                                            Asset('SP500', 'S&P500 Index', '^GSPC'),
                                             Asset('UST30', 'US 30 Year Treasuries', '^TYX'), )
            }
-
