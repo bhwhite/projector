@@ -42,7 +42,7 @@ class FixedCompositionPortfolioGenerator(PortfolioGenerator):
 
         PortfolioGenerator.__init__(self)  # Init base class
 
-        assert sum(composition.itervalues()) == 1.0   # TODO (nmusolino): float tolerance
+        assert abs(sum(composition.itervalues()) - 1.0) < 1E-4   # Apply float tolerance
         self.composition = collections.OrderedDict(composition)
 
     def asset_names_of_interest(self):

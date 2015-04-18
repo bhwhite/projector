@@ -21,7 +21,6 @@ class PortfolioGeneratorTest(unittest.TestCase):
                       asset_states=[ AssetState(price=19.0),
                                      AssetState(price=39.0) ])
 
-        # asset_collection = StubAssetCollection()
         target_composition = {'UST30': 0.50, 'SP500': 0.50}
         pgen = portfolio_generator.FixedCompositionPortfolioGenerator(composition=target_composition)
         self.assertEqual(2, len(pgen.asset_names_of_interest()))
