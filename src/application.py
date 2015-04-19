@@ -1,6 +1,11 @@
 import datetime
+import pickle
+
 from bottle import route, run, static_file
 from engine import asset, holding, portfolio, portfolio_generator, return_sampler, simulator
+
+all_returns = pickle.load(open('all-returns.pkl', 'rb'))
+return_sampler.HISTORICAL_RETURNS = all_returns
 
 @route('/static/<path:path>')
 def handle_static(path):

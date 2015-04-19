@@ -5,6 +5,9 @@
 from .portfolio_generator import PortfolioGenerator
 
 import datetime
+import random
+
+HISTORICAL_RETURNS = None
 
 class ReturnSampler(object):
     """
@@ -32,7 +35,7 @@ class FairHistoricalReturnSampler(ReturnSampler):
         ReturnSampler.__init__(self, portfolio_generator, start_date, end_date, return_period)
 
     def sample_returns(self):
-        return { name: 3.14 for name in self.portfolio_generator.asset_names_of_interest() }
+        return random.choice(HISTORICAL_RETURNS)
 
 class ConstantReturnSampler(ReturnSampler):
     """
