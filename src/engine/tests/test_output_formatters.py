@@ -5,6 +5,7 @@
 from ..output_formatters import highcharts_series
 
 import datetime
+import json
 import unittest
 
 class OutputFormattersTest(unittest.TestCase):
@@ -19,3 +20,5 @@ class OutputFormattersTest(unittest.TestCase):
 
         import pprint
         pprint.pprint(highcharts_spec)
+
+        unused = json.dumps(highcharts_spec)

@@ -36,9 +36,7 @@ class Summarizer(unittest.TestCase):
             self.assertIn('P50', summary)
             self.assertIn('P50', summary)
 
-            # import pprint
-            # pprint.pprint(summary)
-
+            
 
 
 

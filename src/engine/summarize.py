@@ -41,12 +41,16 @@ def summarize_series(all_portfolio_series, sampling_freq=1):
 
         observed_port_values = sorted((series[i] for series in all_portfolio_series), key=portfolio_value)
 
+        # Index 2 is portfolio value.
         summary_series.append((date,
-                               observed_port_values[low_series_index],
-                               observed_port_values[med_series_index],
-                               observed_port_values[hi_series_index]))
+                               observed_port_values[low_series_index][2],
+                               observed_port_values[med_series_index][2],
+                               observed_port_values[hi_series_index][2]))
 
     # Cache-friendly list rearrangement
+    assert isinstance(summary_series, list)
+    assert isinstance(summary_series[0], tuple)
+
     return { 'P10': [ (elem[0], elem[1]) for elem in summary_series ],
              'P50': [ (elem[0], elem[2]) for elem in summary_series ],
              'P90': [ (elem[0], elem[3]) for elem in summary_series ] }
