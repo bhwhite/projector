@@ -70,7 +70,9 @@ def highcharts_series(all_portfolio_series):
     :return:
     """
     # Contributions will be the same in all output series.
-    charting_spec = [ _highcharts_contribution_series(all_portfolio_series[0]) ]
+    # charting_spec = [ _highcharts_contribution_series(all_portfolio_series[0]) ]
+
+    charting_spec = []
 
     # Add the individual trajectories
     for series in all_portfolio_series:
@@ -84,7 +86,7 @@ def highcharts_series(all_portfolio_series):
         charting_spec.append(_highcharts_envelope_series(summary['P{}'.format(percentile)],
                                                          name='{}th percentile'.format(percentile)))
 
-    assert len(charting_spec) == len(all_portfolio_series) + 4
+    assert len(charting_spec) == len(all_portfolio_series) + 3
 
     _ = json.dumps(charting_spec)
 
