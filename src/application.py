@@ -149,10 +149,11 @@ def handle_getdata_get():
                                        cur_portfolio_generator,
                                        cur_portfolio,
                                        user_supplied_sim_start_date,
-                                       user_supplied_sim_end_date)
-                    for ii in range(3) ]
+                                       user_supplied_sim_end_date,
+                                       user_supplied_monthly_investment * 12.0)
+                    for ii in range(50) ]
     formatted_output = json.dumps(output_formatters.highcharts_series(all_results))
-    # print formatted_output
+    print '---\n{}\n---'.format(formatted_output)
     return formatted_output
 
 @route('/foo')
