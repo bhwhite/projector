@@ -29,13 +29,13 @@ def noop(_):
 
 class SimulatorTest(unittest.TestCase):
     def test_simulator(self):
-        pgen = portfolio_generator.FixedCompositionPortfolioGenerator({ 'UST30': 0.25, 'SP500': 0.75 })
+        pgen = portfolio_generator.FixedCompositionPortfolioGenerator({ 'TYX': 0.25, 'SPX': 0.75 })
 
-        return_period = datetime.timedelta(days=10)
-        sampler = return_sampler.ConstantReturnSampler(portfolio_generator=pgen,
-                                                       start_date=datetime.date(year=2000, month=1, day=1),
-                                                       end_date=datetime.date(year=2014, month=12, day=31),
-                                                       return_period=return_period)
+        return_period = datetime.timedelta(days=7)
+        sampler = return_sampler.FairHistoricalReturnSampler(portfolio_generator=pgen,
+                                                             start_date=datetime.date(year=2000, month=1, day=1),
+                                                             end_date=datetime.date(year=2014, month=12, day=31),
+                                                             return_period=return_period)
 
 
         cash_asset_state = AssetState(price=1.00)

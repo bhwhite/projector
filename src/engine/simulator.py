@@ -50,6 +50,8 @@ def simulate(return_sampler, portfolio_generator, initial_portfolio, initial_dat
         returns['CASH'] = 0.00  # Hackish: provide a working approach when the portfolio
                                 # generator doesn't care about CASH.
         for name, prev_state in asset_states.iteritems():
+            import logging
+            logging.warn('name: {}, asset_states: {}, returns: {}'.format(name, asset_states, returns))
             asset_states[name].price = prev_state.price * (1.0+returns[name])
 
         portfolio.update_asset_states(asset_states)  # The portfolio value changes here.

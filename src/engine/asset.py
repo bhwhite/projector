@@ -23,6 +23,6 @@ class AssetState(object):
         self.price = price
 
 ASSETS = { asset.name: asset for asset in ( Asset('CASH', 'Cash', 'Cash'),
-                                            Asset('SP500', 'S&P500 Index', '^GSPC'),
-                                            Asset('UST30', 'US 30 Year Treasuries', '^TYX'), )
+                                            Asset('SPX', 'S&P500 Index', '^GSPC'),
+                                            Asset('TYX', 'US 30 Year Treasuries', '^TYX'), )
            }

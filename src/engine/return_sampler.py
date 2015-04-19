@@ -6,8 +6,9 @@ from .portfolio_generator import PortfolioGenerator
 
 import datetime
 import random
+import cPickle
 
-HISTORICAL_RETURNS = None
+HISTORICAL_RETURNS = cPickle.load(open('all-returns.pkl'))
 
 class ReturnSampler(object):
     """
@@ -35,7 +36,11 @@ class FairHistoricalReturnSampler(ReturnSampler):
         ReturnSampler.__init__(self, portfolio_generator, start_date, end_date, return_period)
 
     def sample_returns(self):
-        return random.choice(HISTORICAL_RETURNS)
+        import logging
+        return_choice = random.choice(HISTORICAL_RETURNS)
+        logging.warn('returns: {}'.format(return_choice))
+        return return_choice[1]
+
 
 class ConstantReturnSampler(ReturnSampler):
     """
