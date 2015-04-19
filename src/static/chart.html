@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Chart sample</title>
+    <div id="chart" style="height: 420px; min-width: 310px"></div>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+</head>
+<body>
+<script>
+    // Replace the first element -- which is presumed to be a date string
+    // in the ISO format 'YYYY-MM-DD' -- with a JavaScript Date instance
+    function replaceDate(datapoint) {
+        datapoint[0] = Date.parse(datapoint[0])
+        return datapoint
+    }
+
+    // This function adds a sampled series to the chart.
+    function addMinorSeries(chart_document_id, series_plural) {
+        var num_series = series_plural.length;
+        for (var i = 0; i != num_series; i++)
+        {
+            series_plural[i].data = series_plural[i].data.map(replaceDate)
+        }
+
+        new Highcharts.Chart({
+            chart: {
+                renderTo: chart_document_id
+            },
+            xAxis: {
+                type: 'datetime',
+                title: { text: 'Date' }
+            },
+            series: series_plural
+        })
+    };  // end of function
+
+    series_plural = [{
+                name: 'portfolio series 1',
+                type: 'line',
+                marker: {
+                    enabled: false
+                },
+                color: '#444444',
+                data: [ [ "2015-04-01", 100],
+                        [ "2015-05-01", 200],
+                        [ "2015-06-01", 400],
+                        [ "2015-08-15", 700] ]
+            },
+            {
+                name: 'portfolio series 2',
+                type: 'line',
+                marker: {
+                    enabled: false
+                },
+                data: [ [ "2015-04-01", 150],
+                        [ "2015-05-01", 250],
+                        [ "2015-06-01", 350],
+                        [ "2015-08-15", 425] ]
+            }]
+    addMinorSeries('chart', series_plural)
+</script>
+</body>
+</html>
+
