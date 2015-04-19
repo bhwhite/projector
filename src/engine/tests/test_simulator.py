@@ -10,7 +10,6 @@ from .. import portfolio_generator
 from .. import simulator
 
 import datetime
-import logging
 import time  # for timing
 import unittest
 
@@ -28,9 +27,6 @@ def noop(_):
 
 
 class SimulatorTest(unittest.TestCase):
-    def SetUp(self):
-        logging.basicConfig(level=logging.DEBUG)
-
     def test_simulator(self):
         pgen = portfolio_generator.FixedCompositionPortfolioGenerator({ 'UST30': 0.25, 'SP500': 0.75 })
 
@@ -57,7 +53,7 @@ class SimulatorTest(unittest.TestCase):
                                                    initial_date=start_date,
                                                    final_date=end_date)
 
-        logging.info("Single simulation overhead: {}".format(t.interval))
+        print("Single simulation overhead: {}".format(t.interval))
 
     def test_pool_overhead(self):
         import multiprocessing
@@ -66,4 +62,4 @@ class SimulatorTest(unittest.TestCase):
             pool = multiprocessing.Pool(8)
             results = pool.map(noop, xrange(100))
 
-        logging.info("Multiprocessing overhead: {}".format(t.interval))
+        print("Multiprocessing overhead: {}".format(t.interval))

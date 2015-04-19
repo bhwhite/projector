@@ -31,6 +31,17 @@ class Portfolio(object):
         self._cached_value = None
 
 
+    def add_holding(self, holding, asset_state):
+        """
+        Add the given holding with the described state to the Portfolio.
+        :param holding:  a holding.  It is okay if this duplicates an Asset already
+            held in the Portfolio.
+        :param asset_state:  the corresponding AssetState
+        """
+        self.holdings.append(holding)
+        self.asset_states.append(asset_state)
+        self._cached_value = None
+
     def value(self):
         """
         Return the value of this portfolio
