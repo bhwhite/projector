@@ -62,8 +62,17 @@ def _highcharts_contribution_series(portfolio_series):
               'data': _contribution_series(portfolio_series)
             }
 
+def _highcharts_add_goal(goal_series):
+    return { 'name': 'Goal',
+             'type': 'line',
+             'color': '#22610B',
+             'marker': { 'enabled': False },
+             'data': _contribution_series(goal_series)
+           }
 
-def highcharts_series(all_portfolio_series):
+
+
+def highcharts_series(all_portfolio_series, goal_value=None):
     """
     This function conflates output formatting and output summarizing.
     :param all_portfolio_series:
@@ -87,6 +96,12 @@ def highcharts_series(all_portfolio_series):
         charting_spec.append(_highcharts_envelope_series(summary['P{}'.format(percentile)],
                                                          name='{}th percentile'.format(percentile)))
 
+    if goal_value is not None and goal_value > 0.1:
+        start_date = all_portfolio_series[0][0][0]
+        end_date = all_portfolio_series[0][-1][0]
+        goal_series = [ (start_date, goal_value),
+                        (end_date,   goal_value) ]
+        charting_spec.append(_highcharts_add_goal(goal_series))
 
     _ = json.dumps(charting_spec)
 

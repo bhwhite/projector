@@ -69,13 +69,13 @@ function show_chart_click_handler(event)
     var goal_value = $('#goal').val();
 
     // alert(current_portfolio_value + ', ' + monthly_investment);
-
+    // alert('goal_value: ' + goal_value)
     var desired_portfolio_generator = $('#desired_portfolio_generator').val();
 
     var args =
 	'current_portfolio_value=' + current_portfolio_value + '&' +
 	'monthly_investment=' + monthly_investment + '&' +
-	'goal_value' + goal_value + '&' +
+	'goal_value=' + goal_value + '&' +
 	'desired_portfolio_generator=' + desired_portfolio_generator;
     // console.log(args);
     

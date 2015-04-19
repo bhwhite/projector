@@ -147,9 +147,9 @@ def handle_getdata_get():
     user_supplied_return_sampler = 'Historical Returns'
 
     try:
-        goal_value = float(goal_value)
+        goal_value = float(user_supplied_goal_value)
     except:
-        goal_value = 0.0
+        goal_value = None
 
     holdings = [ holding.Holding(asset.ASSETS['CASH'], user_supplied_total_value), ]
     asset_states = [ asset.AssetState(1.0), ]
@@ -167,7 +167,7 @@ def handle_getdata_get():
                                        user_supplied_sim_end_date,
                                        user_supplied_monthly_investment * 12.0)
                     for ii in range(30) ]
-    formatted_output = json.dumps(output_formatters.highcharts_series(all_results))
+    formatted_output = json.dumps(output_formatters.highcharts_series(all_results, goal_value=goal_value))
     # print '---\n{}\n---'.format(formatted_output)
     return formatted_output
 
