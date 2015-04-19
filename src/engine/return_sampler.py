@@ -47,6 +47,6 @@ class ConstantReturnSampler(ReturnSampler):
         return { name: self.constant_return for name in self.portfolio_generator.asset_names_of_interest() }
 
 
-RETURN_SAMPLERS = { 'Constant 6% Annual' : lambda aa, bb, cc: ConstantReturnSampler(aa, bb, cc, datetime.timedelta(days=10)),
-                    'Historical Returns' : lambda aa, bb, cc: FairHistoricalReturnSampler(aa, bb, cc, datetime.timedelta(days=10)),
+RETURN_SAMPLERS = { 'Constant 6% Annual' : lambda aa, bb, cc: ConstantReturnSampler(aa, bb, cc, datetime.timedelta(days=7)),
+                    'Historical Returns' : lambda aa, bb, cc: FairHistoricalReturnSampler(aa, bb, cc, datetime.timedelta(days=7)),
                     }

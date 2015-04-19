@@ -71,4 +71,5 @@ class FixedCompositionPortfolioGenerator(PortfolioGenerator):
 
 PORTFOLIO_GENERATORS = {
     'Fixed Composition: 80% Stocks / 20% Bonds' : lambda: FixedCompositionPortfolioGenerator( { 'SP500' : .80, 'UST30' : .20 } ),
+    'Fixed Composition: 60% Stocks / 40% Bonds' : lambda: FixedCompositionPortfolioGenerator( { 'SP500' : .60, 'UST30' : .40 } ),
     }
