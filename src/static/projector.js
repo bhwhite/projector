@@ -26,8 +26,6 @@ function addAwesomeSeries(chart_document_id, series_plural) {
         },
         series: series_plural
     });
-
-    alert('Done');
 }
 
 function show_chart_click_handler(event)
