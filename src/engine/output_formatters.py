@@ -4,6 +4,8 @@
 
 from . import summarize
 
+import json
+
 # Our client-side code expects dates as "YYYY-MM-DD" strings.
 
 def _portfolio_value_series(portfolio_series):
@@ -24,6 +26,7 @@ def _contribution_series(portfolio_series):
 def _highcharts_minor_series(portfolio_series):
      return { 'name': '',
               'type': 'line',
+              'lineWidth': 1,
               'color': '#444444',
               'marker': { 'enabled': False },
               'data': _portfolio_value_series(portfolio_series)
@@ -34,7 +37,7 @@ def _highcharts_median_series(portfolio_series):
     ## it gets elements 0 and 1 from each tuple.
     return { 'name': 'Median portfolio value',
               'type': 'line',
-              'color': '#black',
+              'color': 'blue',
               'lineWidth': 5,
               'marker': { 'enabled': False },
               'data': _contribution_series(portfolio_series)
@@ -44,7 +47,8 @@ def _highcharts_median_series(portfolio_series):
 def _highcharts_envelope_series(portfolio_series, name):
     return { 'name': name,
               'type': 'line',
-              'color': '#red',
+              'color': 'blue',
+              'dashStyle': 'longdash',
               'lineWidth': 3,
               'marker': { 'enabled': False },
               'data': _contribution_series(portfolio_series)
@@ -54,7 +58,7 @@ def _highcharts_envelope_series(portfolio_series, name):
 def _highcharts_contribution_series(portfolio_series):
     return { 'name': 'Cumulative contributions',
               'type': 'bar',
-              'color': '#red',
+              'color': 'red',
               'data': _contribution_series(portfolio_series)
             }
 
@@ -79,6 +83,10 @@ def highcharts_series(all_portfolio_series):
     for percentile in (10, 90):
         charting_spec.append(_highcharts_envelope_series(summary['P{}'.format(percentile)],
                                                          name='{}th percentile'.format(percentile)))
+
+    assert len(charting_spec) == len(all_portfolio_series) + 4
+
+    _ = json.dumps(charting_spec)
 
     return charting_spec
 

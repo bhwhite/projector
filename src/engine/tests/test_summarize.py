@@ -34,9 +34,9 @@ class Summarizer(unittest.TestCase):
 
             self.assertIn('P10', summary)
             self.assertIn('P50', summary)
-            self.assertIn('P50', summary)
+            self.assertIn('P90', summary)
 
-            
+
 
 
 
