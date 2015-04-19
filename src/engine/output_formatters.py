@@ -27,6 +27,7 @@ def _highcharts_minor_series(portfolio_series):
      return { 'name': '',
               'type': 'line',
               'lineWidth': 1,
+              'showInLegend': False,
               'color': '#444444',
               'marker': { 'enabled': False },
               'data': _portfolio_value_series(portfolio_series)
@@ -37,7 +38,7 @@ def _highcharts_median_series(portfolio_series):
     ## it gets elements 0 and 1 from each tuple.
     return { 'name': 'Median portfolio value',
               'type': 'line',
-              'color': 'blue',
+              'color': '#2364DB',
               'lineWidth': 5,
               'marker': { 'enabled': False },
               'data': _contribution_series(portfolio_series)
@@ -47,7 +48,7 @@ def _highcharts_median_series(portfolio_series):
 def _highcharts_envelope_series(portfolio_series, name):
     return { 'name': name,
               'type': 'line',
-              'color': 'blue',
+              'color': '#CAD5EB',
               'dashStyle': 'longdash',
               'lineWidth': 3,
               'marker': { 'enabled': False },
