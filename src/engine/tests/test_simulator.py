@@ -10,6 +10,7 @@ from .. import portfolio_generator
 from .. import simulator
 
 import datetime
+import pprint
 import time  # for timing
 import unittest
 
@@ -41,19 +42,32 @@ class SimulatorTest(unittest.TestCase):
         initial_portfolio = Portfolio(holdings=[ Holding(ASSETS['CASH'], quantity=10000)],
                                       asset_states=[cash_asset_state])
         # Confirm this does not throw
-        _ = initial_portfolio.value()
+        initial_portfolio_value = initial_portfolio.value()
 
         start_date = datetime.date(year=2015, month=4, day=18)
         end_date = start_date + datetime.timedelta(days=20 * 365.25)
+
+        annual_contribution_amount = 365.25
 
         with Timer() as t:
             port_value_series = simulator.simulate(return_sampler=sampler,
                                                    initial_portfolio=initial_portfolio,
                                                    portfolio_generator=pgen,
                                                    initial_date=start_date,
-                                                   final_date=end_date)
+                                                   final_date=end_date,
+                                                   annual_contribution_amount=annual_contribution_amount)
 
+        print("simulator output:\n{}\n...\n{}".format(pprint.pformat(port_value_series[1:4]),
+                                                      pprint.pformat(port_value_series[-4:])))
         print("Single simulation overhead: {}".format(t.interval))
+
+        def approx_equal(a, b, rel_tol):
+            return abs(a - b) < rel_tol * 0.5 * (a+b)
+
+        self.assertTrue(approx_equal(initial_portfolio_value + annual_contribution_amount*20,
+                                     port_value_series[-1][1],
+                                     rel_tol=0.01))
+
 
     def test_pool_overhead(self):
         import multiprocessing
