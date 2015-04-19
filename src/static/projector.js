@@ -24,6 +24,12 @@ function addAwesomeSeries(chart_document_id, series_plural) {
             type: 'datetime',
             title: { text: 'Date' }
         },
+	yAxis: {
+	    title: { text: 'Portfolio (dollars)' }
+	},
+	title: {
+            text: "Portfolio Simultions"
+	},
         series: series_plural
     });
 }
@@ -49,6 +55,8 @@ function show_chart_click_handler(event)
     }
     monthly_investment = parsed_value
 
+    var goal_value = $('#goal').val();
+
     // alert(current_portfolio_value + ', ' + monthly_investment);
 
     var desired_portfolio_generator = $('#desired_portfolio_generator').val();
@@ -56,6 +64,7 @@ function show_chart_click_handler(event)
     var args =
 	'current_portfolio_value=' + current_portfolio_value + '&' +
 	'monthly_investment=' + monthly_investment + '&' +
+	'goal_value' + goal_value + '&' +
 	'desired_portfolio_generator=' + desired_portfolio_generator;
     // console.log(args);
     

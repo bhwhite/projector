@@ -72,6 +72,15 @@ index_output = """
              </div>
           </div>
 
+          <div class="row">
+            <div class="small-12 columns">
+                <label>
+                  <span data-tooltip aria-haspopup="true" class="has-tip round" title="Goals are good!">What's your target value?</span> <font color="red" id="goal_error"></font>
+                  <input type="text" id="goal" name="goal" placeholder="0.00" value="0.00"/>
+                </label>
+             </div>
+          </div>
+
           <a href="#" class="button round" id="show_chart_button">Show me the charts!</a>
           <!-- <input type="submit" value="Show me the charts!" id="show_chart_button" name="submit" class="button round"> -->
 
@@ -134,7 +143,13 @@ def handle_getdata_get():
     user_supplied_total_value = float(request.query.current_portfolio_value)
     user_supplied_portfolio_generator = request.query.desired_portfolio_generator
     user_supplied_monthly_investment = float(request.query.monthly_investment)
+    user_supplied_goal_value = request.query.goal_value
     user_supplied_return_sampler = 'Historical Returns'
+
+    try:
+        goal_value = float(goal_value)
+    except:
+        goal_value = 0.0
 
     holdings = [ holding.Holding(asset.ASSETS['CASH'], user_supplied_total_value), ]
     asset_states = [ asset.AssetState(1.0), ]
@@ -151,9 +166,9 @@ def handle_getdata_get():
                                        user_supplied_sim_start_date,
                                        user_supplied_sim_end_date,
                                        user_supplied_monthly_investment * 12.0)
-                    for ii in range(50) ]
+                    for ii in range(30) ]
     formatted_output = json.dumps(output_formatters.highcharts_series(all_results))
-    print '---\n{}\n---'.format(formatted_output)
+    # print '---\n{}\n---'.format(formatted_output)
     return formatted_output
 
 @route('/foo')
