@@ -24,12 +24,23 @@ function addAwesomeSeries(chart_document_id, series_plural) {
             type: 'datetime',
             title: { text: 'Date' }
         },
-	yAxis: {
-	    title: { text: 'Portfolio (dollars)' }
-	},
-	title: {
+    	yAxis: {
+	        title: { text: 'Portfolio (dollars)' }
+	    },
+	    title: {
             text: "Portfolio Simultions"
-	},
+	    },
+        plotOptions: {
+            area: {
+                fillColor: {
+                    linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
+                    stops: [
+                        [0, 'red' ],
+                        [1, 'white' ]
+                    ]
+                }
+            }
+        },
         series: series_plural
     });
 }

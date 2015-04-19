@@ -49,7 +49,6 @@ def _highcharts_envelope_series(portfolio_series, name):
     return { 'name': name,
               'type': 'line',
               'color': '#597EC2', # Middle blue
-              'dashStyle': 'longdash',
               'lineWidth': 3,
               'marker': { 'enabled': False },
               'data': _contribution_series(portfolio_series)
