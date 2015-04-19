@@ -28,7 +28,7 @@ def _highcharts_minor_series(portfolio_series):
               'type': 'line',
               'lineWidth': 1,
               'showInLegend': False,
-              'color': '#444444',
+              'color': '#D0D6D6',
               'marker': { 'enabled': False },
               'data': _portfolio_value_series(portfolio_series)
             }
@@ -38,7 +38,7 @@ def _highcharts_median_series(portfolio_series):
     ## it gets elements 0 and 1 from each tuple.
     return { 'name': 'Median portfolio value',
               'type': 'line',
-              'color': '#2364DB',
+              'color': '#09388F', # Dark blue
               'lineWidth': 5,
               'marker': { 'enabled': False },
               'data': _contribution_series(portfolio_series)
@@ -48,7 +48,7 @@ def _highcharts_median_series(portfolio_series):
 def _highcharts_envelope_series(portfolio_series, name):
     return { 'name': name,
               'type': 'line',
-              'color': '#CAD5EB',
+              'color': '#597EC2', # Middle blue
               'dashStyle': 'longdash',
               'lineWidth': 3,
               'marker': { 'enabled': False },
@@ -58,7 +58,7 @@ def _highcharts_envelope_series(portfolio_series, name):
 
 def _highcharts_contribution_series(portfolio_series):
     return { 'name': 'Cumulative contributions',
-              'type': 'bar',
+              'type': 'area',
               'color': 'red',
               'data': _contribution_series(portfolio_series)
             }
@@ -74,6 +74,7 @@ def highcharts_series(all_portfolio_series):
     # charting_spec = [ _highcharts_contribution_series(all_portfolio_series[0]) ]
 
     charting_spec = []
+    charting_spec.append(_highcharts_contribution_series(all_portfolio_series[0]))
 
     # Add the individual trajectories
     for series in all_portfolio_series:
@@ -87,7 +88,6 @@ def highcharts_series(all_portfolio_series):
         charting_spec.append(_highcharts_envelope_series(summary['P{}'.format(percentile)],
                                                          name='{}th percentile'.format(percentile)))
 
-    assert len(charting_spec) == len(all_portfolio_series) + 3
 
     _ = json.dumps(charting_spec)
 
