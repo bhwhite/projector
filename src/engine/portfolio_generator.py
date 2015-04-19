@@ -70,9 +70,10 @@ class FixedCompositionPortfolioGenerator(PortfolioGenerator):
         return Portfolio(new_holdings, asset_states)
 
 PORTFOLIO_GENERATORS = {
-    'Aggressive: 100% Stocks'                   : lambda: FixedCompositionPortfolioGenerator( { 'SPX' : 1.0 } ),
-    'High Growth: 80% Stocks / 20% Bonds'       : lambda: FixedCompositionPortfolioGenerator( { 'SPX' : .80, 'TYX' : .20 } ),
-    'Cautious Growth: 60% Stocks / 40% Bonds'   : lambda: FixedCompositionPortfolioGenerator( { 'SPX' : .60, 'TYX' : .40 } ),
-    'Conservative: 40% Stocks / 60% Bonds'      : lambda: FixedCompositionPortfolioGenerator( { 'SPX' : .40, 'TYX' : .60 } ),
-    'Capital Preservation: 100% Bonds'          : lambda: FixedCompositionPortfolioGenerator( { 'TYX' : 1.0 } ),
+    'Aggressive: 100% Stocks'                      : lambda: FixedCompositionPortfolioGenerator( { 'SPX' : 1.0 } ),
+    'High Growth: 80% Stocks / 20% Bonds'          : lambda: FixedCompositionPortfolioGenerator( { 'SPX' : .80, 'TYX' : .20 } ),
+    'Cautious Growth: 60% Stocks / 40% Bonds'      : lambda: FixedCompositionPortfolioGenerator( { 'SPX' : .60, 'TYX' : .40 } ),
+    'Conservative: 40% Stocks / 60% Bonds'         : lambda: FixedCompositionPortfolioGenerator( { 'SPX' : .40, 'TYX' : .60 } ),
+    'Capital Preservation: 100% Bonds'             : lambda: FixedCompositionPortfolioGenerator( { 'TYX' : 1.0 } ),
+    'Overweight Small-Cap: 80% Stocks / 20% Bonds' : lambda: FixedCompositionPortfolioGenerator( { 'TYX' : .2, 'IUX' : .4, 'SPX' : .4 } )
     }

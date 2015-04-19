@@ -24,5 +24,6 @@ class AssetState(object):
 
 ASSETS = { asset.name: asset for asset in ( Asset('CASH', 'Cash', 'Cash'),
                                             Asset('SPX', 'S&P500 Index', '^GSPC'),
+                                            Asset('IUX', 'RUSSELL 2000 Index', '^IUX'),
                                             Asset('TYX', 'US 30 Year Treasuries', '^TYX'), )
            }

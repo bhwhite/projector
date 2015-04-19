@@ -177,7 +177,7 @@ def handle_foo():
     user_supplied_portfolio_generator = 'Aggressive: 100% Stocks'
     user_supplied_return_sampler = 'Constant 6% Annual'
     user_supplied_sim_start_date = datetime.date(2015, 4, 18)
-    user_supplied_sim_end_date = datetime.date(2030, 12, 31)
+    user_supplied_sim_end_date = datetime.date(2040, 12, 31)
     user_supplied_sample_start_date = datetime.date(1960, 1, 1)
     user_supplied_sample_end_date = datetime.date(2015, 4, 18)
     
