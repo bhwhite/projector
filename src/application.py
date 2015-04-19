@@ -4,7 +4,7 @@ from engine import asset, holding, portfolio, portfolio_generator, return_sample
 
 @route('/static/<path:path>')
 def handle_static(path):
-    return static_file(path, root='/Users/bwhite/projector/git/projector/src/static')
+    return static_file(path, root='static')
 
 index_output = """
 <!doctype html>
