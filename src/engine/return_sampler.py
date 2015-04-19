@@ -36,9 +36,9 @@ class FairHistoricalReturnSampler(ReturnSampler):
         ReturnSampler.__init__(self, portfolio_generator, start_date, end_date, return_period)
 
     def sample_returns(self):
-        import logging
+        # import logging
         return_choice = random.choice(HISTORICAL_RETURNS)
-        logging.warn('returns: {}'.format(return_choice))
+        # logging.warn('returns: {}'.format(return_choice))
         return return_choice[1]
 
 

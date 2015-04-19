@@ -1,8 +1,9 @@
 import datetime
 import pickle
+import json
 
 from bottle import redirect, request, route, run, static_file
-from engine import asset, holding, portfolio, portfolio_generator, return_sampler, simulator
+from engine import asset, holding, output_formatters, portfolio, portfolio_generator, return_sampler, simulator
 
 #all_returns = pickle.load(open('all-returns.pkl', 'rb'))
 #return_sampler.HISTORICAL_RETURNS = all_returns
@@ -25,23 +26,26 @@ index_output = """
     <title>Projector</title>
   </head>
   <body>
+    <div class="row">
+      &nbsp;
+    </div>
 
     <div class="row">
-      <div class="small-12 columns">
-	LOGO GOES HERE
+      <div class="small-5 columns">
+        <img src="/static/logo.png">
       </div>
-    </div>
+<!--    </div>
 
     <p />
 
-    <div class="row">
+    <div class="row"> -->
 
-      <div class="small-12 columns">
+      <div class="small-5 columns">
 
         <!-- <form method="post" id="projector_form" action="/"> -->
         <form id="projector_form">
           <div class="row">
-            <div class="small-5 columns">
+            <div class="small-12 columns">
                 <label>
                   <span data-tooltip aria-haspopup="true" class="has-tip round" title="If you're starting from scratch, no worries. You can leave this set to 0.00.">How big is your portfolio today?</span> <font color="red" id="current_portfolio_error"></font>
                   <input type="text" id="current_portfolio_value" name="current_portfolio_value" placeholder="0.00" value="0.00"/>
@@ -49,7 +53,7 @@ index_output = """
              </div>
           </div>
           <div class="row">
-            <div class="small-5 columns">
+            <div class="small-12 columns">
                <label>
                   <span data-tooltip aria-haspopup="true" class="has-tip round" title="What kind of portfolio would you like to hold?">Portfolio choices:</span>
                  <select id="desired_portfolio_generator" name="desired_portfolio_generator">
@@ -60,7 +64,7 @@ index_output = """
           </div>
 
           <div class="row">
-            <div class="small-5 columns">
+            <div class="small-12 columns">
                 <label>
                   <span data-tooltip aria-haspopup="true" class="has-tip round" title="You can do it! Start small, grow big!">How much will you save monthly?</span> <font color="red" id="monthly_investment_error"></font>
                   <input type="text" id="monthly_investment" name="monthly_investment" placeholder="0.00" value="0.00"/>
@@ -77,7 +81,15 @@ index_output = """
 
     </div>
 
+    <div class="row">
+      <div class="small-12 columns"
+        <div id="chart_section" style="height: 420px; min-width: 310px"></div>
+      </div>
+    </div>
+
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
+    <script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
     <script type="text/javascript" src="http://cdn.foundation5.zurb.com/foundation.js"></script>
     <script>
       $(document).foundation();
@@ -113,10 +125,40 @@ def handle_index_get():
 
     return output
 
+def handle_getdata_get():
+    user_supplied_sim_start_date = datetime.date(2015, 4, 18)
+    user_supplied_sim_end_date = datetime.date(2030, 12, 31)
+    user_supplied_sample_start_date = datetime.date(1990, 1, 1)
+    user_supplied_sample_end_date = datetime.date(2015, 4, 18)
+
+    user_supplied_total_value = float(request.query.current_portfolio_value)
+    user_supplied_portfolio_generator = request.query.desired_portfolio_generator
+    user_supplied_monthly_investment = float(request.query.monthly_investment)
+    user_supplied_return_sampler = 'Historical Returns'
+
+    holdings = [ holding.Holding(asset.ASSETS['CASH'], user_supplied_total_value), ]
+    asset_states = [ asset.AssetState(1.0), ]
+
+    cur_portfolio = portfolio.Portfolio(holdings, asset_states)
+    cur_portfolio_generator = portfolio_generator.PORTFOLIO_GENERATORS[user_supplied_portfolio_generator]()
+    cur_return_sampler = return_sampler.RETURN_SAMPLERS[user_supplied_return_sampler](cur_portfolio_generator,
+                                                                                      user_supplied_sample_start_date,
+                                                                                      user_supplied_sample_end_date)
+
+    all_results = [ simulator.simulate(cur_return_sampler,
+                                       cur_portfolio_generator,
+                                       cur_portfolio,
+                                       user_supplied_sim_start_date,
+                                       user_supplied_sim_end_date)
+                    for ii in range(3) ]
+    formatted_output = json.dumps(output_formatters.highcharts_series(all_results))
+    # print formatted_output
+    return formatted_output
+
 @route('/foo')
 def handle_foo():
     user_supplied_total_value = 1000
-    user_supplied_portfolio_generator = 'Fixed Composition: 80% Stocks / 20% Bonds'
+    user_supplied_portfolio_generator = 'Aggressive: 100% Stocks'
     user_supplied_return_sampler = 'Constant 6% Annual'
     user_supplied_sim_start_date = datetime.date(2015, 4, 18)
     user_supplied_sim_end_date = datetime.date(2030, 12, 31)
@@ -150,6 +192,7 @@ def handle_foo():
     return '\n'.join(output)
 
 route('/', method='GET')(handle_index_get)
+route('/getdata', method='GET')(handle_getdata_get)
 route('/', method='POST')(handle_index_post)
 
 run(host='localhost', port=8081, debug=True)
