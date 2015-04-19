@@ -1,11 +1,11 @@
 import datetime
 import pickle
 
-from bottle import route, run, static_file
+from bottle import redirect, request, route, run, static_file
 from engine import asset, holding, portfolio, portfolio_generator, return_sampler, simulator
 
-all_returns = pickle.load(open('all-returns.pkl', 'rb'))
-return_sampler.HISTORICAL_RETURNS = all_returns
+#all_returns = pickle.load(open('all-returns.pkl', 'rb'))
+#return_sampler.HISTORICAL_RETURNS = all_returns
 
 @route('/static/<path:path>')
 def handle_static(path):
@@ -36,32 +36,40 @@ index_output = """
 
     <div class="row">
 
-      <div class="small-12">
+      <div class="small-12 columns">
 
-        <form method="post" id="projector_form" action="/">
+        <!-- <form method="post" id="projector_form" action="/"> -->
+        <form id="projector_form">
           <div class="row">
-            <div class="small-6">
+            <div class="small-5 columns">
                 <label>
-                  <span data-tooltip aria-haspopup="true" class="has-tip round" title="If you're starting from scratch, no worries. You can leave this set to 0.00.">How big is your portfolio today?</span>
-                  <input type="text" name="current_portfolio_value" placeholder="0.00" value="0.00"/>
+                  <span data-tooltip aria-haspopup="true" class="has-tip round" title="If you're starting from scratch, no worries. You can leave this set to 0.00.">How big is your portfolio today?</span> <font color="red" id="current_portfolio_error"></font>
+                  <input type="text" id="current_portfolio_value" name="current_portfolio_value" placeholder="0.00" value="0.00"/>
                 </label>
              </div>
           </div>
           <div class="row">
-            <div class="small-6">
+            <div class="small-5 columns">
                <label>
                   <span data-tooltip aria-haspopup="true" class="has-tip round" title="What kind of portfolio would you like to hold?">Portfolio choices:</span>
-                 <select name="desired_portfolio_generator">
+                 <select id="desired_portfolio_generator" name="desired_portfolio_generator">
                    {}
                  </select>
                </label>  
              </div>
           </div>
+
           <div class="row">
-            <div class="small-6">
-               <a href="#" class="button round" id="add_contribution">Add contribution</a>
+            <div class="small-5 columns">
+                <label>
+                  <span data-tooltip aria-haspopup="true" class="has-tip round" title="You can do it! Start small, grow big!">How much will you save monthly?</span> <font color="red" id="monthly_investment_error"></font>
+                  <input type="text" id="monthly_investment" name="monthly_investment" placeholder="0.00" value="0.00"/>
+                </label>
              </div>
           </div>
+
+          <a href="#" class="button round" id="show_chart_button">Show me the charts!</a>
+          <!-- <input type="submit" value="Show me the charts!" id="show_chart_button" name="submit" class="button round"> -->
 
         </form>
 
@@ -81,7 +89,20 @@ index_output = """
 """
 
 def handle_index_post():
-    return ''
+    try:
+        current_portfolio_value = request.forms.get('current_portfolio_value')
+        desired_portfolio_generator = request.forms.get('desired_portfolio_generator')
+        monthly_investment = request.forms.get('monthly_investment')
+
+        if not current_portfolio_value or not desired_portfolio_generator or not monthly_investment:
+            redirect('/')
+
+        current_portfolio_value = float(current_portfolio_value)
+        monthly_investment = float(monthly_investment)
+    except Exception, e:
+        redirect('/')
+
+    return ', '.join([str(current_portfolio_value), str(desired_portfolio_generator), str(monthly_investment)])
 
 def handle_index_get():
     def format_portfolio_generators():
